@@ -13,6 +13,8 @@ Mobs.add = function (netmob, network, ownerId) {
     if (network) {
         mobs[netmob.id].network(netmob);
     }
+
+    SWAM.trigger(SWAM.events.mobAdded, [netmob, network, ownerId]);
 };
 
 Mobs.update = function () {
@@ -35,12 +37,16 @@ Mobs.network = function (netmob, ownerId) {
 Mobs.despawn = function (despawnMsg) {
     var mob = mobs[despawnMsg.id];
     null != mob && mob.despawn(despawnMsg.type)
+
+    SWAM.trigger(SWAM.events.mobDespawned, despawnMsg);
 };
 
 Mobs.destroy = function (t) {
     var n = mobs[t.id];
     null != n && (n.destroy(t),
         delete mobs[t.id])
+
+    SWAM.trigger(SWAM.events.mobDestroyed, t);
 };
 
 Mobs.explosion = function (pos, mobType) {

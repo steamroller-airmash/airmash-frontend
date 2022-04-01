@@ -1107,7 +1107,9 @@ Games.prep = function() {
             $('#gamespecific').html('');
             UI.show('#gamespecific');
             break;
-    }    
+    }
+
+    SWAM.trigger(SWAM.events.gamePrep);
 };
 
 Games.wipe = function() {
@@ -1133,6 +1135,8 @@ Games.wipe = function() {
         ctf.flagBlue.minimapBase.destroy();
         ctf.flagRed.minimapBase.destroy();
     }
+
+    SWAM.trigger(SWAM.events.gameWipe);
 };
 
 /**
@@ -1191,6 +1195,10 @@ Games.networkFlag = function(msg) {
     }
 
     updateCtfFlag(flag, false);
+
+    SWAM.trigger(SWAM.events.CTF_Flag);
+
+
 };
 
 var updateCtfFlag = function(flag, isResize) {
@@ -1277,6 +1285,8 @@ Games.spectate = function(playerId) {
     html += '</div>';
 
     UI.showSpectator(html);
+
+    SWAM.trigger(SWAM.events.spectate, [playerId])
 };
 
 /**
@@ -1333,6 +1343,8 @@ Games.showBTRWin = function(info) {
         }, 1000 * info.t);
         Sound.gameComplete();
     }
+
+    SWAM.trigger(SWAM.events.BTR_MatchEnded);
 };
 
 /**
@@ -1357,6 +1369,9 @@ Games.showCTFWin = function(info) {
         }, 1000 * info.t);
         Sound.gameComplete();
     }
+
+    SWAM.trigger(SWAM.events.CTF_MatchEnded, info)
+    setTimeout(function() { SWAM.trigger(SWAM.events.CTF_MatchStarted); }, 60000);
 };
 
 Games.showLevelUp = function(level) {

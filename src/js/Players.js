@@ -32,6 +32,8 @@ Players.add = function(player, fromLogin) {
     if (game.state === Network.STATE.PLAYING) {
         UI.updateGameInfo();
     }
+
+    SWAM.trigger(SWAM.events.playerAdded, [player])
 };
 
 Players.get = function(t) {
@@ -74,10 +76,12 @@ Players.network = function(type, msg) {
                 break;
             case Network.SERVERPACKET.CHAT_SAY:
                 player.sayBubble(msg);
+                SWAM.trigger(SWAM.events.playerSay, msg);
                 break;
             case Network.SERVERPACKET.PLAYER_RESPAWN:
                 player.respawn(msg);
                 UI.updateGameInfo();
+                SWAM.trigger(SWAM.events.playerRespawned, msg);
                 break;
             case Network.SERVERPACKET.PLAYER_FLAG:
                 if (msg.id == game.myID) {
@@ -87,6 +91,7 @@ Players.network = function(type, msg) {
                     });
                 }
                 player.changeFlag(msg);
+                SWAM.trigger(SWAM.events.playerChangedFlag, msg);
                 break;
         }
 };
@@ -94,6 +99,8 @@ Players.network = function(type, msg) {
 Players.stealth = function(t) {
     var n = playersById[t.id];
     null != n && n.stealth(t)
+
+    SWAM.trigger(SWAM.events.playerStealth, t);
 };
 
 Players.leaveHorizon = function(t) {
@@ -153,10 +160,13 @@ Players.impact = function(t) {
         var r = playersById[t.players[n].id];
         null != r && r.impact(t.type, new Vector(t.posX,t.posY), t.players[n].health, t.players[n].healthRegen)
     }
+
+    SWAM.trigger(SWAM.events.playerImpacted, t);
 };
 
 Players.powerup = function(e) {
     Players.getMe().powerup(e)
+    SWAM.trigger(SWAM.events.playerPowerUp, e);
 };
 
 Players.updateLevel = function(packet) {
@@ -173,6 +183,7 @@ Players.reteam = function(msg) {
     }
 
     UI.updateGameInfo();
+    SWAM.trigger(SWAM.events.playerReteamed, msg)
 };
 
 Players.kill = function(msg) {
@@ -197,6 +208,12 @@ Players.kill = function(msg) {
         if (!player.me() && player.id === game.spectatingID && game.gameType !== GameType.BTR) {
             Games.spectatorSwitch(player.id);
         }
+
+        SWAM.trigger(SWAM.events.playerKilled, [
+            msg,
+            player,
+            Players.get(msg.killer) || null
+        ]);
     } 
     else {
         player.kill({
@@ -217,6 +234,8 @@ Players.destroy = function(id) {
 
     let player = playersById[id];
     if (player != null) {
+        SWAM.trigger(SWAM.events.playerDestroyed, player)
+
         player.destroy(true);
         delete playersById[id];
 
@@ -229,6 +248,8 @@ Players.destroy = function(id) {
 Players.changeType = function(t) {
     var n = playersById[t.id];
     null != n && n.changeType(t)
+
+    SWAM.trigger(SWAM.events.playerChangedType, t);
 };
 
 Players.count = function() {

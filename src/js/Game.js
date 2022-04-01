@@ -1341,7 +1341,7 @@ var scheduleOccasionalFrameWhileBlurred = function() {
     msSinceLastFrame > 450 && !game.focus && scheduleFrame(msSinceLastFrame / 16.666, true)
 };
 
-$(function() {
+window.SWAM.setupAirmashGame = function setupAirmashGame() {
     game.state = Network.STATE.LOGIN,
     Tools.startupMsg(),
     Tools.loadSettings(),
@@ -1369,7 +1369,7 @@ $(function() {
         game.customServerUrl = window.location.hash.substr(customServerHashPrefix.length);
         Games.start(game.myOriginalName, true);
     }
-});
+}
 
 !function() {
     var alreadyWarned;

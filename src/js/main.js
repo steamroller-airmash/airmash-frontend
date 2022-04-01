@@ -1,5 +1,7 @@
 "use strict";
 
+import './ext';
+
 import './Constants';
 import { game, config } from './Game'
 import Games from './Games';

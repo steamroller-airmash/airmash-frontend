@@ -153,6 +153,7 @@ UI.serverMessage = function(msg) {
     }
 
     UI.showMessage(type, sanitizeServerMessageHtml(msg.text), msg.duration)
+    SWAM.trigger(SWAM.events.serverMessageReceived, [msg]);
 };
 
 UI.showMessage = function(msgType, htmlContents, timeoutMs) {
@@ -490,6 +491,7 @@ UI.scoreboardUpdate = function (msgData, msgRankings, maxScoreboard) {
     }
     
     $("#scoreboard").html(html);
+    SWAM.trigger(SWAM.events.scoreboardUpdate, [msgData, msgRankings, maxScoreboard]);
 };
 
 var wrapCharsInSpans = function (str) {
@@ -635,6 +637,8 @@ UI.addChatLine = function(msg, text, msgType) {
             1 != msgType && 2 != msgType && msg.id != game.myID && h.is(":hover") || (h.perfectScrollbar("update"),
             h.scrollTop(h[0].scrollHeight))
         }
+
+        SWAM.trigger(SWAM.events.chatLineAdded, [msg, text, msgType]);
     }
 };
 
@@ -1424,6 +1428,8 @@ UI.updateScore = function (scoreDetailedMsg) {
     $("#scoretable").html(tableHtml);
     $("#scorecontainer").html(containerHtml);
     $("#scoremvp").html(mvpHtml);
+
+    SWAM.trigger(SWAM.events.detailedScoreUpdate, [scoreDetailedMsg]);
 };
 
 UI.popMenu = function(event, closeMenu) {
@@ -1567,6 +1573,7 @@ UI.dropFlag = function(e) {
 
 UI.selectUpgrade = function(e) {
     Network.sendCommand("upgrade", e + "")
+    SWAM.trigger(SWAM.events.playerUpgraded, e);
 };
 
 var updateUpgradesLighted = function() {

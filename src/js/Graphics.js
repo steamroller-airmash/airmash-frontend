@@ -123,6 +123,8 @@ Graphics.resizeRenderer = function(width, height) {
     initPolygonsScale(),
     Graphics.setCamera(cameraState.center.x, cameraState.center.y),
     game.state == Network.STATE.PLAYING && Network.resizeHorizon()
+
+    SWAM.trigger(SWAM.events.rendererResized, [width, height]);
 };
 
 Graphics.toggleHiDPI = function() {
