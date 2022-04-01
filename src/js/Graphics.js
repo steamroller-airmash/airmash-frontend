@@ -48,7 +48,8 @@ var setupPixiRenderer = function() {
             return;
         }
     }
-    document.body.appendChild(renderer.view)
+
+    $('#canvas')[0].appendChild(renderer.view)
 }
 
 var setupPixiContainers = function() {
@@ -102,6 +103,8 @@ var initPixiTextures = function() {
 };
 
 Graphics.resizeRenderer = function(width, height) {
+    width = Math.min(width, height);
+
     var overdrawWidth = width + config.overdraw,
         overdrawHeight = height + config.overdraw;
     initGameObjScreenVars(width, height),
@@ -129,6 +132,8 @@ Graphics.toggleHiDPI = function() {
 };
 
 var initGameObjScreenVars = function(screenInnerWidth, screenInnerHeight) {
+    screenInnerWidth = Math.min(screenInnerWidth, screenInnerHeight)
+
     game.screenX = screenInnerWidth,
     game.screenY = screenInnerHeight,
     game.halfScreenX = screenInnerWidth / 2,
