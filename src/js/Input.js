@@ -245,17 +245,31 @@ var onWindowKeyDown = function(event) {
     }
 };
 
-var onWindowKeyUp = function(event) {
-    if (game.state == Network.STATE.PLAYING || game.state == Network.STATE.CONNECTING) {
-        var keyCode = event.which,
-            bind = Input.getBind(keyCode);
-        if (null == movementKeySet[bind] && isPressedByKeyCode[keyCode] && (isPressedByKeyCode[keyCode] = false),
-        !shouldInterpretAsControlKey(keyCode))
-            return lastTransmittedKeyState[bind] && (lastTransmittedKeyState[bind] = false,
-            R(bind)),
-            t[keyCode] && (t[keyCode] = false),
-            event.preventDefault(),
-            false
+/**
+ * @param {KeyboardEvent} event 
+ * @returns {boolean | undefined}
+ */
+function onWindowKeyUp(event) {
+    if (game.state !== Network.STATE.PLAYING && game.state !== Network.STATE.CONNECTING)
+        return;
+
+    var keyCode = event.which;
+    var bind = Input.getBind(keyCode);
+
+    if (movementKeySet[bind] == null && isPressedByKeyCode[keyCode])
+        isPressedByKeyCode[keyCode] = false;
+
+    if (!shouldInterpretAsControlKey(keyCode)) {
+        if (lastTransmittedKeyState[bind]) {
+            lastTransmittedKeyState[bind] = false;
+            R(bind);
+        }
+
+        if (t[keyCode])
+            t[keyCode] = false;
+
+        event.preventDefault();
+        return false;
     }
 };
 
