@@ -291,7 +291,13 @@ function onWindowKeyUp(event) {
     }
 };
 
-var shouldInterpretAsControlKey = function(keyCode, t) {
+/**
+ * 
+ * @param {number} keyCode 
+ * @param {*} t 
+ * @returns {boolean}
+ */
+function shouldInterpretAsControlKey(keyCode, t) {
     return !!UI.chatBoxOpen() && (
         9 != keyCode && // Tab
         27 != keyCode && // Escape
