@@ -8,6 +8,7 @@ window.SWAM = {
     gamePrep: 'gamePrep',
     gameWipe: 'gameWipe',
     spectate: 'spectate',
+    packetReceived: 'packet',
 
     playerAdded: 'playerAdded',
     playerDestroyed: 'playerDestroyed',

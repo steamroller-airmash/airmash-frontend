@@ -350,6 +350,8 @@ var dispatchIncomingMessage = function(msg) {
         case ServerPacket.COMMAND_REPLY:
             UI.showCommandReply(msg)
         }
+
+        SWAM.trigger(SWAM.events.packetReceived, msg);
     }
 };
 
