@@ -199,7 +199,7 @@ window.SettingsProvider = SWAM.SettingsProvider;
 
 // Some event handlers needed to tie everything together
 function handleKeydown(evt) {
-  SWAM.trigger(SWAM.events.keyup, evt);
+  SWAM.trigger(SWAM.events.keydown, evt);
 }
 function handleKeyup(evt) {
   SWAM.trigger(SWAM.events.keyup, evt)
@@ -212,15 +212,11 @@ function handleCanvasMousedown(evt) {
 }
 
 SWAM.on(SWAM.events.gamePrep, function () {
-  $(window).on('keyup', handleKeyup);
-  $(window).on('keydown', handleKeydown);
   $('canvas').on('click', handleCanvasClick);
   $('canvas').on('mousedown', handleCanvasMousedown);
 });
 
 SWAM.on(SWAM.events.gameWipe, function () {
-  $(window).off('keyup', handleKeyup);
-  $(window).off('keydown', handleKeydown);
   $('canvas').off('click', handleCanvasClick);
   $('canvas').off('mousedown', handleCanvasMousedown);
 });

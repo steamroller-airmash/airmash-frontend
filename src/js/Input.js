@@ -262,6 +262,7 @@ function onWindowKeyDown(event) {
 
         if (!t[keyCode])
             t[keyCode] = true;
+        SWAM.trigger(SWAM.events.keydown, event); 
     }
 
     event.preventDefault();
@@ -291,6 +292,7 @@ function onWindowKeyUp(event) {
         if (t[keyCode])
             t[keyCode] = false;
 
+        SWAM.trigger(SWAM.events.keyup, event);
         event.preventDefault();
         return false;
     }
