@@ -12,6 +12,7 @@ var imageUrlByName = {
     particles: "assets/particles.png",
     flags: "assets/flagsbig.png?4",
     items: "assets/items.png?3",
+    extras: "assets/extras.png",
     gui: "assets/gui.png"
 };
 
@@ -84,12 +85,10 @@ var spriteByName = {
     spark_1: ["particles", [872, 120, 8, 8]],
     flash_2: ["particles", [848, 0, 120, 120]],
     crate_upgrade: ["items", [4, 268, 128, 128]],
-    crate_magic: ["items", [4, 409, 128, 128]],
     crate_shield: ["items", [140, 268, 128, 128]],
     crate_rampage: ["items", [276, 268, 128, 128]],
     afterburner: ["items", [412, 268, 128, 128]],
     missile_fat: ["items", [548, 268, 64, 128]],
-    missile_carrot: ["items", [694, 268, 64, 128]],
     missile: ["items", [620, 268, 32, 128]],
     doodad_field: ["items", [4, 4, 256, 256]],
     badge_bronze: ["items", [268, 140, 64, 64]],
@@ -126,7 +125,9 @@ var spriteByName = {
     chatbubbleleft: ["gui", [274, 274, 16, 82]],
     chatbubblecenter: ["gui", [350, 274, 82, 82]],
     chatbubbleright: ["gui", [438, 274, 16, 82]],
-    chatbubblepoint: ["gui", [297, 352, 36, 22]]
+    chatbubblepoint: ["gui", [297, 352, 36, 22]],
+    crate_magic: ["extras", [0, 0, 128, 128]],
+    missile_carrot: ["extras", [128, 0, 64, 128]],
 };
 
 var flagByName = {
