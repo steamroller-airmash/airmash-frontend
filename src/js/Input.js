@@ -224,24 +224,42 @@ Input.setup = function() {
     })
 };
 
-var onWindowKeyDown = function(event) {
-    if (game.state == Network.STATE.PLAYING || game.state == Network.STATE.CONNECTING) {
-        var keyCode = event.which;
-        if (72 != keyCode && UI.hideHelp(),
-        null != c && P(keyCode))
-            event.preventDefault();
-        else {
-            var bind = Input.getBind(keyCode);
-            if (!shouldInterpretAsControlKey(keyCode))
-                return null == movementKeySet[bind] ? (isPressedByKeyCode[keyCode] || (isPressedByKeyCode[keyCode] = true,
-                UI.controlKey(keyCode, bind, true)),
-                event.preventDefault(),
-                false) : (lastTransmittedKeyState[bind] || (lastTransmittedKeyState[bind] = true,
-                C(bind)),
-                t[keyCode] || (t[keyCode] = true),
-                event.preventDefault(),
-                false)
+/**
+ * @param {KeyboardEvent} event
+ * @returns {boolean | undefined}
+ */
+function onWindowKeyDown(event) {
+    if (game.state !== Network.STATE.PLAYING && game.state !== Network.STATE.CONNECTING)
+        return;
+
+    var keyCode = event.which;
+    if (keyCode != 72)
+        UI.hideHelp();
+
+    if (c != null && P(keyCode)) {
+        event.preventDefault();
+        return;
+    }
+
+    var bind = Input.getBind(keyCode);
+    if (!shouldInterpretAsControlKey(keyCode)) {
+        if (movementKeySet[bind] == null) {
+            if (!isPressedByKeyCode[keyCode]) {
+                isPressedByKeyCode[keyCode] = true;
+                UI.controlKey(keyCode, bind, true);
+            }
+        } else {
+            if (!lastTransmittedKeyState[bind]) {
+                lastTransmittedKeyState[bind] = true;
+                C(bind);
+            }
+
+            if (!t[keyCode])
+                t[keyCode] = true;
         }
+
+        event.preventDefault();
+        return false;
     }
 };
 
