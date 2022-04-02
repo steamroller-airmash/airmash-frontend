@@ -1,6 +1,7 @@
 import Vector from './Vector';
 import nipplejs from 'nipplejs';
 import Network from './Network';
+import SWAM from './ext/SWAM';
 
 var lastTransmittedKeyState = {},
     t = {},
