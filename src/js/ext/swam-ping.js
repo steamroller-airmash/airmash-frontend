@@ -9,7 +9,7 @@ SWAM.on(SWAM.events.chatLineAdded, (msg, text, type) => {
   if (msg.id === Players.getMe().id)
     return;
 
-  Network.sendWhisper(msg.id, `-SWAM-PONG SM-ng Vanilla Theme`);
+  Network.sendWhisper(msg.id, `-SWAM-PONG SM-ng ${SWAM.chosenTheme || "Vanilla Theme"}`);
 });
 
 SWAM.on(SWAM.events.gameLoaded, () => {

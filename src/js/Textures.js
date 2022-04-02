@@ -1,3 +1,6 @@
+import Graphics from "./Graphics";
+import SWAM from "./ext/SWAM";
+
 var imageUrlByName = {
     map_sea: "assets/map_sea.jpg",
     map_sea_mask: "assets/map_sea_mask.jpg",
@@ -570,40 +573,49 @@ var pixiImageByName = {};
 
 let Textures = {};
 
-Textures.load = function() {
-    for(var name in imageUrlByName)
-        pixiImageByName[name] = new PIXI.Texture.fromImage(imageUrlByName[name]);
+SWAM.one(SWAM.events.themeLoad, function () {
+    SWAM.theme.injectTextures(imageUrlByName, spriteByName, flagByName, textureByName, pixiImageByName);
+});
+
+Textures.load = function () {
+    for (var name in imageUrlByName) {
+        try {
+            pixiImageByName[name] = new PIXI.Texture.fromImage(imageUrlByName[name]);
+        } catch (e) {
+            throw `Error while loading ${name}: ${e}`
+        }
+    }
     var sprite;
-    for(var name in spriteByName)
+    for (var name in spriteByName)
         sprite = spriteByName[name],
             pixiImageByName[name] = new PIXI.Texture(pixiImageByName[sprite[0]].baseTexture, new PIXI.Rectangle(sprite[1][0], sprite[1][1], sprite[1][2], sprite[1][3]));
-    for(var name in flagByName)
+    for (var name in flagByName)
         sprite = flagByName[name],
             pixiImageByName[name] = new PIXI.Texture(pixiImageByName[sprite[0]].baseTexture, new PIXI.Rectangle(sprite[1][0], sprite[1][1], sprite[1][2], sprite[1][3]))
 };
 
-Textures.get = function(name) {
+Textures.get = function (name) {
     return pixiImageByName[name]
 };
 
-Textures.getNamed = function(e) {
+Textures.getNamed = function (e) {
     return pixiImageByName[textureByName[e].texture]
 };
 
-Textures.init = function(textureName, propOverrides) {
+Textures.init = function (textureName, propOverrides) {
     var cloned = JSON.parse(JSON.stringify(textureByName[textureName]));
-    if("screencenter" === cloned.position && (cloned.position = [game.halfScreenX, game.halfScreenY]),
+    if ("screencenter" === cloned.position && (cloned.position = [game.halfScreenX, game.halfScreenY]),
         propOverrides)
-        for(var i in propOverrides)
+        for (var i in propOverrides)
             cloned[i] = propOverrides[i];
     return Graphics.initSprite(cloned.texture, game.graphics.layers[cloned.layer], cloned)
 };
 
-Textures.sprite = function(name) {
+Textures.sprite = function (name) {
     return new PIXI.Sprite(pixiImageByName[name])
 };
 
-Textures.tile = function(name, t, n) {
+Textures.tile = function (name, t, n) {
     return new PIXI.extras.TilingSprite(pixiImageByName[name], t, n)
 };
 

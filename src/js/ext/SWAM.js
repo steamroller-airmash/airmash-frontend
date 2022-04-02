@@ -1,7 +1,37 @@
 
-window.SWAM = {
+const localStorageKey = 'SWAM2_Extensions';
+let events = $({});
+
+function wrapHandler(handler) {
+  const wrapper = function () {
+    let args = Array.from(arguments);
+    args.shift();
+
+    try {
+      return handler.apply(null, args);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  handler.guid = handler.guid || $.guid++;
+  wrapper.guid = handler.guid;
+  return wrapper;
+}
+
+function getLocalExtensionData() {
+  try {
+    let data = JSON.parse(localStorage.getItem(localStorageKey));
+    return data.extensions || {}
+  } catch (e) {
+    return {}
+  }
+}
+
+const SWAM = {
   events: {
     extensionsLoaded: 'extensionsLoaded',
+    themeLoad: 'themeLoad',
     themeLoaded: 'themeLoaded',
     gameLoaded: 'gameLoaded',
     gameRunning: 'gameRunning',
@@ -46,47 +76,25 @@ window.SWAM = {
   },
   extensions: {},
   themes: {},
-}
-
-!function () {
-  const localStorageKey = 'SWAM2_Extensions';
-  let events = $({});
+  theme: null,
 
   // Event handling, this bit of code directly mimics StarMash's event handling
   // code in order to remain compatible.
-  function wrapHandler(handler) {
-    const wrapper = function () {
-      let args = Array.from(arguments);
-      args.shift();
-
-      try {
-        return handler.apply(null, args);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    handler.guid = handler.guid || $.guid++;
-    wrapper.guid = handler.guid;
-    return wrapper;
-  }
-
-  SWAM.on = function (event, handler) {
+  on(event, handler) {
     events.on(event, wrapHandler(handler));
-  }
-
-  SWAM.one = function (event, handler) {
+  },
+  one(event, handler) {
     events.one(event, wrapHandler(handler));
-  }
-
-  SWAM.off = function (event, handler) {
-    events.off(event, handler);
-  }
-
-  SWAM.trigger = events.trigger.bind(events);
+  },
+  off(event, handler) {
+    events.off(event, wrapHandler(handler));
+  },
+  trigger(event, arg) {
+    events.trigger(event, arg)
+  },
 
   // Methods for registering extensions
-  SWAM.registerExtension = function (extension) {
+  registerExtension(extension) {
     extension = $.extend({
       id: '',
       name: '',
@@ -106,43 +114,47 @@ window.SWAM = {
 
     let themes = []
     try {
-      // TODO: Themes and extension settings
+      // TODO: Extension settings
+
+      for (const theme of extension.themes) {
+        console.log(theme);
+        if (!theme.themeName)
+          throw "Invalid theme: 'themeName' field not defined.";
+
+        SWAM.themes[theme.themeName] = theme
+        themes.push(theme)
+      }
 
       SWAM.extensions[extension.id] = {
         url: extension.url,
         enabled: false,
         info: {
-          id: e.id,
-          name: e.name,
-          description: e.description,
-          author: e.author,
-          version: e.version
+          id: extension.id,
+          name: extension.name,
+          description: extension.description,
+          author: extension.author,
+          version: extension.version
         }
       };
     } catch (e) {
       delete SWAM.extensions[extension.id];
       for (let theme of themes)
-        delete SWAM.themes[theme.id];
+        delete SWAM.themes[theme.themeName];
 
+      console.error("An error occurred while attempting to load a theme: ", e);
       throw "An error occurred while attempting to load a theme: " + e;
     }
-  }
 
-  function getLocalExtensionData() {
-    try {
-      let data = JSON.parse(localStorage.getItem(localStorageKey));
-      return data.extensions || {}
-    } catch (e) {
-      return {}
-    }
-  }
+  },
 
-  SWAM.loadSavedExtensions = async function () {
+  async loadSavedExtensions() {
     let extensionData = getLocalExtensionData();
     let extFutures = []
 
     for (const extid in extensionData) {
       const url = extensionData[extid];
+      if (!url)
+        continue;
 
       extFutures.push(new Promise(function (resolve, reject) {
         $.getScript(url).then(resolve, reject);
@@ -150,64 +162,79 @@ window.SWAM = {
     }
 
     await Promise.allSettled(extFutures)
-  };
+  },
 
-  // Some event handlers needed to tie everything together
-  function handleKeydown(evt) {
-    SWAM.trigger(SWAM.events.keyup, evt);
-  }
-  function handleKeyup(evt) {
-    SWAM.trigger(SWAM.events.keyup, evt)
-  }
-  function handleCanvasClick(evt) {
-    SWAM.trigger(SWAM.events.canvasClick, evt);
-  }
-  function handleCanvasMousedown(evt) {
-    SWAM.trigger(SWAM.events.canvasMousedown, evt);
-  }
+  loadThemes() {
+    const chosenTheme = "Realistic Sprites";
 
-  SWAM.on(SWAM.events.gamePrep, function () {
-    $(window).on('keyup', handleKeyup);
-    $(window).on('keydown', handleKeydown);
-    $('canvas').on('click', handleCanvasClick);
-    $('canvas').on('mousedown', handleCanvasMousedown);
-  });
+    if (this.themes[chosenTheme]) {
+      this.theme = new this.themes[chosenTheme]();
+      this.themeName = chosenTheme;
 
-  SWAM.on(SWAM.events.gameWipe, function () {
-    $(window).off('keyup', handleKeyup);
-    $(window).off('keydown', handleKeydown);
-    $('canvas').off('click', handleCanvasClick);
-    $('canvas').off('mousedown', handleCanvasMousedown);
-  });
+      this.trigger(this.events.themeLoad);
+    }
+  },
 
   // Settings
-  SWAM.SettingsSection = class SettingsSection {
-    constructor() {}
+  SettingsSection: class SettingsSection {
+    constructor() { }
 
-    addSeparator(options) {}
-    addButton(label, options) {}
-    addBoolean(property, label, options) {}
-    addString(property, label, options) {}
-    addSliderField(property, label, options) {}
-  };
+    addSeparator(options) { }
+    addButton(label, options) { }
+    addBoolean(property, label, options) { }
+    addString(property, label, options) { }
+    addSliderField(property, label, options) { }
+  },
 
-  SWAM.SettingsProvider = class SettingsProvider {
-    constructor(defaultValues, onApply) {}
+  SettingsProvider: class SettingsProvider {
+    constructor(defaultValues, onApply) { }
 
     addSection(title) {
       return new SWAM.SettingsSection();
     }
-  };
+  },
+};
 
-  window.SettingsProvider = SWAM.SettingsProvider;
+window.SettingsProvider = SWAM.SettingsProvider;
 
-  // Actual setup and initialization of the server code
-  $(async function() {
-    await SWAM.loadSavedExtensions();
-    SWAM.trigger(SWAM.events.extensionsLoaded);
-    SWAM.trigger(SWAM.events.gameLoaded);
+// Some event handlers needed to tie everything together
+function handleKeydown(evt) {
+  SWAM.trigger(SWAM.events.keyup, evt);
+}
+function handleKeyup(evt) {
+  SWAM.trigger(SWAM.events.keyup, evt)
+}
+function handleCanvasClick(evt) {
+  SWAM.trigger(SWAM.events.canvasClick, evt);
+}
+function handleCanvasMousedown(evt) {
+  SWAM.trigger(SWAM.events.canvasMousedown, evt);
+}
 
-    SWAM.setupAirmashGame();
-    SWAM.trigger(SWAM.events.gameRunning);
-  });
-}();
+SWAM.on(SWAM.events.gamePrep, function () {
+  $(window).on('keyup', handleKeyup);
+  $(window).on('keydown', handleKeydown);
+  $('canvas').on('click', handleCanvasClick);
+  $('canvas').on('mousedown', handleCanvasMousedown);
+});
+
+SWAM.on(SWAM.events.gameWipe, function () {
+  $(window).off('keyup', handleKeyup);
+  $(window).off('keydown', handleKeydown);
+  $('canvas').off('click', handleCanvasClick);
+  $('canvas').off('mousedown', handleCanvasMousedown);
+});
+
+// Actual setup and initialization of the server code
+$(async function () {
+  await SWAM.loadSavedExtensions();
+  SWAM.trigger(SWAM.events.extensionsLoaded);
+  SWAM.loadThemes();
+  SWAM.trigger(SWAM.events.gameLoaded);
+
+  SWAM.setupAirmashGame();
+  SWAM.trigger(SWAM.events.gameRunning);
+});
+
+window.SWAM = SWAM;
+export default SWAM;
