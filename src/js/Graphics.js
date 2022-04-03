@@ -12,6 +12,8 @@ var renderer, cameraState = {
     pixiSpriteByName = {}, 
     pixiContainerByName = {};
 
+let Graphics = {}
+
 Graphics.setup = function() {
     initGameObjScreenVars(window.innerWidth, window.innerHeight),
     setupPixiRenderer(),
@@ -337,3 +339,5 @@ Graphics.render = function() {
     renderer.render(pixiContainerByName.hudHealth, pixiSpriteByName.hudTextureHealth, true),
     renderer.render(pixiContainerByName.game)
 };
+
+export default Graphics;

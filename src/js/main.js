@@ -3,7 +3,7 @@
 import './Constants';
 import { game, config } from './Game'
 import Games from './Games';
-import './Graphics';
+import Graphics from './Graphics';
 import './Input';
 import './Mobs';
 import './Network';
@@ -14,7 +14,9 @@ import './Textures';
 import './Tools';
 import './UI';
 
-window.game = game;
-window.config = config;
-
-window.Games = Games;
+$.extend(window, {
+  game,
+  config,
+  Games,
+  Graphics,
+});
