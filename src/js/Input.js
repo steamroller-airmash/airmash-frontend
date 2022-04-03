@@ -204,6 +204,8 @@ var lastTransmittedKeyState = {},
     networkKeyNames = ["UP", "DOWN", "LEFT", "RIGHT", "FIRE", "SPECIAL"],
     x = ["UP", "DOWN", "LEFT", "RIGHT", "FIRE", "SPECIAL"];
 
+let Input = {};
+
 Input.setup = function() {
     for (var name in keyCodeByName)
         keyNameByCode[keyCodeByName[name]] = name;
@@ -699,3 +701,5 @@ var R = function(bind) {
         lastTransmittedKeyState["STRAFERIGHT" === bind ? "STRAFELEFT" : "STRAFERIGHT"] || R("SPECIAL")
     }
 };
+
+export default Input;

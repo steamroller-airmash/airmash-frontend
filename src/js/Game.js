@@ -1,5 +1,6 @@
 import Games from './Games'
 import Graphics from './Graphics'
+import Input from './Input'
 
 window.DEVELOPMENT = /^http:\/\/127\.0\.0\.1:[0-9]{1,5}\/?$/.test(window.origin);
 
@@ -1308,7 +1309,6 @@ export let config = {
 window.Tools = {};
 window.Textures = {};
 window.Network = {};
-window.Input = {};
 window.Players = {};
 window.Mobs = {};
 window.Particles = {};
