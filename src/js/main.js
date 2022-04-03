@@ -5,7 +5,7 @@ import { game, config } from './Game'
 import Games from './Games';
 import Graphics from './Graphics';
 import Input from './Input';
-import './Mobs';
+import Mobs from './Mobs';
 import './Network';
 import './Particles';
 import './Players';
@@ -20,4 +20,5 @@ $.extend(window, {
   Games,
   Graphics,
   Input,
+  Mobs,
 });
