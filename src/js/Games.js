@@ -61,6 +61,8 @@ const loginOrigin = 'https://login.airmash.online';
 let loginIdentityProvider = 0;
 let loginNonce = null;
 
+let Games = {}
+
 Games.setup = function() {
     // Set up all the click event handlers
     $('#playregion').on('click', function(event) {
@@ -1560,3 +1562,5 @@ Games.update = function(isResize) {
             break;
     }
 };
+
+export default Games;
