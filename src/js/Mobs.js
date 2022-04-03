@@ -6,6 +6,8 @@ var mobs = {};
 var doodads = [];
 var someFlag = {};
 
+export default Mobs = {}
+
 Mobs.add = function (netmob, network, ownerId) {
     mobs[netmob.id] = new Mob(netmob, ownerId);
     if (network) {
