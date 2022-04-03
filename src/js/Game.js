@@ -1,3 +1,5 @@
+import Games from './Games'
+
 window.DEVELOPMENT = /^http:\/\/127\.0\.0\.1:[0-9]{1,5}\/?$/.test(window.origin);
 
 export let game = {
@@ -1311,7 +1313,6 @@ window.Players = {};
 window.Mobs = {};
 window.Particles = {};
 window.UI = {};
-window.Games = {};
 window.Sound = {};
 
 function scheduleFrame(fractionalFramesSinceLastFrame, skipGraphicsRendering) {

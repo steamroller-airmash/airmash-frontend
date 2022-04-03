@@ -2,7 +2,7 @@
 
 import './Constants';
 import { game, config } from './Game'
-import './Games';
+import Games from './Games';
 import './Graphics';
 import './Input';
 import './Mobs';
@@ -16,3 +16,5 @@ import './UI';
 
 window.game = game;
 window.config = config;
+
+window.Games = Games;
