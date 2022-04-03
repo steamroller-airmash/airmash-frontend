@@ -1,24 +1,40 @@
 export default class Vector {
-    constructor(e, t) {
-        this.x = e,
-        this.y = t
+    /**
+     * @param {number} x
+     * @param {number} y 
+     */
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
     }
     
+    /**
+     * @param {number} e 
+     */
     add(e) {
         this.x += e,
         this.y += e
     }
 
+    /**
+     * @param {number} e 
+     */
     divide(e) {
         this.x /= e,
         this.y /= e
     }
 
+    /**
+     * @param {number} e 
+     */
     multiply(e) {
         this.x *= e,
         this.y *= e
     }
 
+    /**
+     * @param {number} e 
+     */
     limit(e) {
         this.divide(this.length()),
         this.multiply(e)
@@ -36,16 +52,25 @@ export default class Vector {
         return Math.atan2(this.y, this.x) - Math.PI / 2
     }
 
+    /**
+     * @param {number} e 
+     */
     ceil(e) {
         this.x > e && (this.x = e),
         this.y > e && (this.y = e)
     }
 
+    /**
+     * @param {number} e 
+     */
     floor(e) {
         this.x < e && (this.x = e),
         this.y < e && (this.y = e)
     }
 
+    /**
+     * @param {number} e 
+     */
     both(e) {
         this.x = e,
         this.y = e
@@ -55,15 +80,30 @@ export default class Vector {
         return new Vector(0,0)
     }
 
+    /**
+     * @param {number} e
+     * @returns {Vector}
+     */
     static diag(e) {
         return new Vector(e,e)
     }
 
-    static create(e, t) {
-        return new Vector(Math.sin(e) * t,-Math.cos(e) * t)
+    /**
+     * @param {number} angle
+     * @param {number} length
+     * @returns {Vector}
+     */
+    static create(angle, length) {
+        return new Vector(Math.sin(angle) * length, -Math.cos(angle) * length)
     }
 
-    static createOff(e, t, n) {
-        return new Vector(e.x + Math.sin(t) * n,e.y - Math.cos(t) * n)
+    /**
+     * @param {Vector} offset
+     * @param {number} angle
+     * @param {number} length
+     * @returns {Vector}
+     */
+    static createOff(offset, angle, length) {
+        return new Vector(offset.x + Math.sin(angle) * length,offset.y - Math.cos(angle) * length)
     }
 }
