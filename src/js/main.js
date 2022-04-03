@@ -1,7 +1,7 @@
 "use strict";
 
 import './Constants';
-import './Game';
+import { game, config } from './Game'
 import './Games';
 import './Graphics';
 import './Input';
@@ -13,3 +13,6 @@ import './Sound';
 import './Textures';
 import './Tools';
 import './UI';
+
+window.game = game;
+window.config = config;

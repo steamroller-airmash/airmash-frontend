@@ -1,6 +1,6 @@
 window.DEVELOPMENT = /^http:\/\/127\.0\.0\.1:[0-9]{1,5}\/?$/.test(window.origin);
 
-window.game = {
+export let game = {
     protocol: 5,
     version: `v${require('./Version')}`,
     state: 0,
@@ -53,7 +53,7 @@ window.game = {
     server: {}
 };
 
-window.config = {
+export let config = {
     airmashRefugees: {
         // Multiply all sprite font sizes (for blind people)
         fontSizeMul: 1.0,
@@ -1314,7 +1314,7 @@ window.UI = {};
 window.Games = {};
 window.Sound = {};
 
-var scheduleFrame = function(fractionalFramesSinceLastFrame, skipGraphicsRendering) {
+function scheduleFrame(fractionalFramesSinceLastFrame, skipGraphicsRendering) {
     Tools.updateTime(fractionalFramesSinceLastFrame);
     Tools.debugStartFrame();
     if (game.state == Network.STATE.PLAYING) {
