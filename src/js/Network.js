@@ -17,6 +17,8 @@ var primarySock = null,
     f = 2e3,
     g = 2e3;
 
+var Network = {};
+
 Network.sendKey = function(keyCode, isPressed) {
     if (game.state == Network.STATE.PLAYING) {
         sendKeyCount++;
@@ -971,3 +973,5 @@ Network.STATE = {
     CONNECTING: 2,
     PLAYING: 3
 };
+
+export default Network;

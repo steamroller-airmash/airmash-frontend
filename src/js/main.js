@@ -6,7 +6,7 @@ import Games from './Games';
 import Graphics from './Graphics';
 import Input from './Input';
 import Mobs from './Mobs';
-import './Network';
+import Network from './Network';
 import './Particles';
 import './Players';
 import './Sound';
@@ -21,4 +21,5 @@ $.extend(window, {
   Graphics,
   Input,
   Mobs,
+  Network,
 });
