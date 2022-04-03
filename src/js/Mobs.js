@@ -6,7 +6,7 @@ var mobs = {};
 var doodads = [];
 var someFlag = {};
 
-export default Mobs = {}
+var Mobs = {}
 
 Mobs.add = function (netmob, network, ownerId) {
     mobs[netmob.id] = new Mob(netmob, ownerId);
@@ -137,3 +137,5 @@ Mobs.updateDoodads = function () {
                 doodads.splice(l, 1),
                 delete someFlag[a])
 };
+
+export default Mobs
