@@ -65,6 +65,7 @@ var mainHowlInstance = {},
         }
     };
 
+let Sound = {};
 
 Sound.setup = function() {
     var config = {};
@@ -357,3 +358,5 @@ var getStereoDirection = function(pos) {
         r = game.halfScreenX / game.scale;
     return Tools.clamp(.8 * n / r, -1, 1)
 };
+
+export default Sound;
