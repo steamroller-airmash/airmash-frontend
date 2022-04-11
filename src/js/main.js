@@ -7,7 +7,7 @@ import Graphics from './Graphics';
 import Input from './Input';
 import Mobs from './Mobs';
 import Network from './Network';
-import './Particles';
+import Particles from './Particles';
 import './Players';
 import './Sound';
 import './Textures';
@@ -22,4 +22,5 @@ $.extend(window, {
   Input,
   Mobs,
   Network,
+  Particles,
 });

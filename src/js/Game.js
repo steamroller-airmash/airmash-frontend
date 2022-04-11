@@ -3,6 +3,7 @@ import Graphics from './Graphics'
 import Input from './Input'
 import Mobs from './Mobs'
 import Network from './Network'
+import Particles from './Particles'
 
 window.DEVELOPMENT = /^http:\/\/127\.0\.0\.1:[0-9]{1,5}\/?$/.test(window.origin);
 
@@ -1311,7 +1312,6 @@ export let config = {
 window.Tools = {};
 window.Textures = {};
 window.Players = {};
-window.Particles = {};
 window.UI = {};
 window.Sound = {};
 
