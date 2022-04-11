@@ -6,6 +6,7 @@ import Network from './Network'
 import Particles from './Particles'
 import Players from './Players'
 import Sound from './Sound';
+import Tools from './Tools';
 
 window.DEVELOPMENT = /^http:\/\/127\.0\.0\.1:[0-9]{1,5}\/?$/.test(window.origin);
 
@@ -1311,7 +1312,6 @@ export let config = {
     mapHeight: 16384
 };
 
-window.Tools = {};
 window.UI = {};
 
 function scheduleFrame(fractionalFramesSinceLastFrame, skipGraphicsRendering) {

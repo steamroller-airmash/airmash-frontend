@@ -11,7 +11,7 @@ import Particles from './Particles';
 import Players from './Players';
 import Sound from './Sound';
 import Textures from './Textures';
-import './Tools';
+import Tools from './Tools';
 import './UI';
 
 $.extend(window, {
@@ -25,5 +25,6 @@ $.extend(window, {
   Particles,
   Players,
   Sound,
-  Textures
+  Textures,
+  Tools,
 });
