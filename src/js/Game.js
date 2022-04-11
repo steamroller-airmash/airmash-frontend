@@ -1312,7 +1312,6 @@ export let config = {
 };
 
 window.Tools = {};
-window.Textures = {};
 window.UI = {};
 
 function scheduleFrame(fractionalFramesSinceLastFrame, skipGraphicsRendering) {
