@@ -372,34 +372,61 @@ var initKeyBindsFromSettings = function() {
             keyBindDescription[e] = JSON.parse(JSON.stringify(config.settings.keybinds[e]))
 };
 
-var P = function(keyCode) {
-    var keyName = keyNameByCode[keyCode];
-    if (27 == keyCode && (keyName = ""),
-    null != keyName) {
-        for (var n in keyBindDescription)
-            keyBindDescription[n][0] == keyName && (keyBindDescription[n][0] = ""),
-            keyBindDescription[n].length > 1 && keyBindDescription[n][1] == keyName && (keyBindDescription[n][1] = "");
-        keyBindDescription[c][h] = keyName;
-        for (n in keyBindDescription)
-            keyBindDescription[n].length > 1 && "" == keyBindDescription[n][0] && "" != keyBindDescription[n][1] && (keyBindDescription[n] = [keyBindDescription[n][1]]),
-            2 == keyBindDescription[n].length && "" === keyBindDescription[n][1] && keyBindDescription[n].splice(-1, 1);
-        return updateKeybindsList(),
-        function() {
-            var e = {},
-                t = "";
-            for (var n in keyBindDescription)
-                null != p[n] && (t = JSON.stringify(keyBindDescription[n])) !== JSON.stringify(p[n]) && (e[n] = JSON.parse(t));
-            Object.keys(e).length > 0 ? Tools.setSettings({
-                keybinds: e
-            }) : Tools.removeSetting("keybinds")
-        }(),
-        c = null,
-        true
+/**
+ * @param {number} keyCode
+ * @returns {boolean} 
+ */
+function P(keyCode) {
+    let keyName = keyNameByCode[keyCode];
+
+    // Escape key
+    if (keyCode == 27)
+        keyName = "";
+
+    if (keyName == null)
+        return false;
+
+    for (let key in keyBindDescription) {
+        if (keyBindDescription[key][0] == keyName)
+            keyBindDescription[key][0] = "";
+
+        if (keyBindDescription[key].length > 1 && keyBindDescription[key][1] == keyName)
+            keyBindDescription[key][1] = "";
     }
-    return false
+
+    keyBindDescription[c][h] = keyName;
+
+    for (let key in keyBindDescription) {
+        if (keyBindDescription[key].length > 1 && keyBindDescription[key][0] == "" && keyBindDescription[key][1] != "")
+            keyBindDescription[key] = [keyBindDescription[key][1]];
+
+        if (keyBindDescription[key].length == 2 && keyBindDescription[key][1] === "")
+            keyBindDescription[key].splice(-1, 1);
+    }
+
+    updateKeybindsList();
+
+    let keybinds = {};
+    for (let key in keyBindDescription) {
+        if (p[key] == null)
+            continue;
+        let json = JSON.stringify(keyBindDescription[key]);
+        if (json === JSON.stringify(p[key]))
+            continue;
+        keybinds[key] = JSON.parse(json);
+    }
+
+    if ($.isEmptyObject(keybinds)) {
+        Tools.removeSetting("keybinds");
+    } else {
+        Tools.setSettings({ keybinds });
+    }
+
+    c = null;
+    return true;
 };
 
-var updateKeybindsList = function(e) {
+function updateKeybindsList(e) {
     var n = "";
     var r = "";
     var i = null;
