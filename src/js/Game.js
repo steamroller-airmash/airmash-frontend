@@ -4,6 +4,7 @@ import Input from './Input'
 import Mobs from './Mobs'
 import Network from './Network'
 import Particles from './Particles'
+import Players from './Players'
 
 window.DEVELOPMENT = /^http:\/\/127\.0\.0\.1:[0-9]{1,5}\/?$/.test(window.origin);
 
@@ -1311,7 +1312,6 @@ export let config = {
 
 window.Tools = {};
 window.Textures = {};
-window.Players = {};
 window.UI = {};
 window.Sound = {};
 
