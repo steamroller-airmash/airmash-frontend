@@ -325,7 +325,7 @@ function shouldInterpretAsControlKey(keyCode, t) {
     )
 };
 
-var resetNetworkKeyState = function() {
+function resetNetworkKeyState() {
     gamepadState = {
         forward: true,
         left: false,
