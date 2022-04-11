@@ -16,6 +16,8 @@ var bucketState = {},
     },
     lastRemoteSettingsJson = "";
 
+let Tools = {};
+
 Tools.updateReel = function() {
     if (!reelState.started) {
         reelState.pos = Vector.zero();
@@ -600,3 +602,5 @@ Tools.mungeNonAscii = function(s, id)
 
     return 'player#' + id;
 };
+
+export default Tools;
