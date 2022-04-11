@@ -8,7 +8,7 @@ import Input from './Input';
 import Mobs from './Mobs';
 import Network from './Network';
 import Particles from './Particles';
-import './Players';
+import Players from './Players';
 import './Sound';
 import './Textures';
 import './Tools';
@@ -23,4 +23,5 @@ $.extend(window, {
   Mobs,
   Network,
   Particles,
+  Players,
 });

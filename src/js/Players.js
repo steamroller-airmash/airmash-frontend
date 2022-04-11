@@ -5,6 +5,8 @@ var playersById = {},
     t = [-1, -1, -1],
     n = ["badge_gold", "badge_silver", "badge_bronze"];
 
+let Players = {};
+
 Players.update = function() {
     var t, n;
     for (t in playersById)
@@ -286,3 +288,5 @@ Players.wipe = function() {
 Players.all = function() { // SPATIE
     return playersById;
 };
+
+export default Players;
