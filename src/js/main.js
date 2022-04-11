@@ -10,7 +10,7 @@ import Network from './Network';
 import Particles from './Particles';
 import Players from './Players';
 import Sound from './Sound';
-import './Textures';
+import Textures from './Textures';
 import './Tools';
 import './UI';
 
@@ -24,5 +24,6 @@ $.extend(window, {
   Network,
   Particles,
   Players,
-  Sound
+  Sound,
+  Textures
 });

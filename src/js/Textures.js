@@ -567,6 +567,8 @@ var textureByName = {
 
 var pixiImageByName = {};
 
+let Textures = {};
+
 Textures.load = function() {
     for(var name in imageUrlByName)
         pixiImageByName[name] = new PIXI.Texture.fromImage(imageUrlByName[name]);
@@ -603,3 +605,5 @@ Textures.sprite = function(name) {
 Textures.tile = function(name, t, n) {
     return new PIXI.extras.TilingSprite(pixiImageByName[name], t, n)
 };
+
+export default Textures;
