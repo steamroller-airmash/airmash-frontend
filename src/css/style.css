@@ -67,7 +67,7 @@ body {
     user-select: none;
     -webkit-font-smoothing: antialiased;
     touch-action: manipulation;
-    background: black url("/assets/background.jpg");
+    background: black url("background.jpg");
 }
 
 a {
