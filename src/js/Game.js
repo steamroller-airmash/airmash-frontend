@@ -7,6 +7,7 @@ import Particles from './Particles'
 import Players from './Players'
 import Sound from './Sound';
 import Tools from './Tools';
+import UI from './UI';
 
 window.DEVELOPMENT = /^http:\/\/127\.0\.0\.1:[0-9]{1,5}\/?$/.test(window.origin);
 
@@ -1311,8 +1312,6 @@ export let config = {
     mapWidth: 32768,
     mapHeight: 16384
 };
-
-window.UI = {};
 
 function scheduleFrame(fractionalFramesSinceLastFrame, skipGraphicsRendering) {
     Tools.updateTime(fractionalFramesSinceLastFrame);
