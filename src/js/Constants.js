@@ -5,7 +5,7 @@
 
 
 // ab-protocol/src/types/flags.ts
-window.CountryNames = {
+export const CountryNames = {
   AL: 'Albania',
   DZ: 'Algeria',
   AD: 'Andorra',
@@ -135,7 +135,7 @@ window.CountryNames = {
 
 
 // ab-protocol/src/types/flags.ts
-window.FlagCodeById = {
+export const FlagCodeById = {
   1: 'SY',
   2: 'TH',
   3: 'TM',
@@ -264,14 +264,14 @@ window.FlagCodeById = {
 };
 
 // airmash-protocol-rs/blob/master/src/enums/game_type.rs
-window.GameType = {
+export const GameType = {
     FFA: 1,
     CTF: 2,
     BTR: 3
 };
 
 // airmash-protocol-rs/blob/master/src/enums/plane_type.rs
-window.PlaneType = {
+export const PlaneType = {
     Predator: 1,
     Goliath: 2,
     Mohawk: 3,
@@ -280,7 +280,7 @@ window.PlaneType = {
 };
 
 // airmash-protocol-rs/blob/master/src/enums/mob_type.rs
-window.MobType = {
+export const MobType = {
     PredatorMissile: 1,
     GoliathMissile: 2,
     MohawkMissile: 3,
@@ -298,7 +298,7 @@ window.MobType = {
 
 // IDs in this set have 'missile' behaviour in Mob.js, i.e. they get a thruster
 // and are expected to move.
-window.MissileMobTypeSet = {
+export const MissileMobTypeSet = {
     [MobType.PredatorMissile]: true,
     [MobType.GoliathMissile]: true,
     [MobType.MohawkMissile]: true,
@@ -312,7 +312,7 @@ window.MissileMobTypeSet = {
 
 // IDs in this set have 'crate' behaviour in Mob.js. They have no thruster and
 // are expected to be stationary.
-window.CrateMobTypeSet = {
+export const CrateMobTypeSet = {
     [MobType.Upgrade]: true,
     [MobType.Shield]: true,
     [MobType.Inferno]: true,
@@ -321,16 +321,28 @@ window.CrateMobTypeSet = {
     [MobType.MagicCrate]: true
 };
 
-window.MobDespawnType = {
+export const MobDespawnType = {
     LifetimeEnded: 0,
     Collided: 1
 };
 
 // Mapping from MobType to Textures.js name for the box image used to render a
 // crate from CrateMobTypeSet.
-window.CrateTextureNameByMobType = {
+export const CrateTextureNameByMobType = {
     [MobType.Upgrade]: "crateUpgrade",
     [MobType.Shield]: "crateShield",
     [MobType.Inferno]: "crateRampage",
     [MobType.MagicCrate]: "crateMagic"
 };
+
+$.extend(window, {
+    CountryNames,
+    FlagCodeById,
+    GameType,
+    PlaneType,
+    MobType,
+    MissileMobTypeSet,
+    CrateMobTypeSet,
+    MobDespawnType,
+    CrateTextureNameByMobType
+});
