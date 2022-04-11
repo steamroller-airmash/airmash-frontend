@@ -99,6 +99,8 @@ var minimapMobs = {},
     emoteById = ["tf", "pepe", "clap", "lol", "bro", "kappa", "cry", "rage"],
     powerupNameById = ["", "Shield", "Inferno"];
 
+let UI = {};
+
 UI.show = function(selector, isInlineBlock) {
     $(selector).css({
         display: isInlineBlock ? "inline-block" : "block"
@@ -2135,3 +2137,5 @@ UI.onScaleKnobMouseUp = function(event) {
         scaleIsDragging = false;
     }
 };
+
+export default UI;

@@ -12,7 +12,7 @@ import Players from './Players';
 import Sound from './Sound';
 import Textures from './Textures';
 import Tools from './Tools';
-import './UI';
+import UI from './UI';
 
 $.extend(window, {
   game,
@@ -27,4 +27,5 @@ $.extend(window, {
   Sound,
   Textures,
   Tools,
+  UI,
 });
