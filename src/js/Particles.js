@@ -304,6 +304,8 @@ ParticleContainer.prototype.updateFuncMap = {
 
 var containersByName = {};
 
+let Particles = {};
+
 Particles.setup = function() {
     containersByName.smoke = new ParticleContainer(game.graphics.layers.smoke,2e3),
     containersByName.shadows = new ParticleContainer(game.graphics.layers.shadows,2e3,null,true),
@@ -448,3 +450,5 @@ Particles.count = function() {
 
 
 Particles.PTYPE = particleTypeIdByName
+
+export default Particles;
