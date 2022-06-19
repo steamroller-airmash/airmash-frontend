@@ -244,26 +244,27 @@ function onWindowKeyDown(event) {
     }
 
     var bind = Input.getBind(keyCode);
-    if (!shouldInterpretAsControlKey(keyCode)) {
-        if (movementKeySet[bind] == null) {
-            if (!isPressedByKeyCode[keyCode]) {
-                isPressedByKeyCode[keyCode] = true;
-                UI.controlKey(keyCode, bind, true);
-            }
-        } else {
-            if (!lastTransmittedKeyState[bind]) {
-                lastTransmittedKeyState[bind] = true;
-                C(bind);
-            }
+    if (shouldInterpretAsControlKey(keyCode))
+        return;
 
-            if (!t[keyCode])
-                t[keyCode] = true;
+    if (movementKeySet[bind] == null) {
+        if (!isPressedByKeyCode[keyCode]) {
+            isPressedByKeyCode[keyCode] = true;
+            UI.controlKey(keyCode, bind, true);
+        }
+    } else {
+        if (!lastTransmittedKeyState[bind]) {
+            lastTransmittedKeyState[bind] = true;
+            C(bind);
         }
 
-        event.preventDefault();
-        return false;
+        if (!t[keyCode])
+            t[keyCode] = true;
     }
-};
+
+    event.preventDefault();
+    return false;
+}
 
 /**
  * @param {KeyboardEvent} event 
