@@ -693,7 +693,7 @@ Input.gameBlur = function() {
  * @returns {void} 
  */
 function sendNetworkKeyDown(bind) {
-    if (3 == game.myType && ("STRAFELEFT" === bind || "STRAFERIGHT" === bind)) {
+    if (game.myType == 3 && ("STRAFELEFT" === bind || "STRAFERIGHT" === bind)) {
         sendNetworkKeyDown("SPECIAL");
         sendNetworkKeyDown(bind === "STRAFELEFT" ? "LEFT" : "RIGHT");
         return;
