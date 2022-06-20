@@ -256,7 +256,7 @@ function onWindowKeyDown(event) {
     } else {
         if (!lastTransmittedKeyState[bind]) {
             lastTransmittedKeyState[bind] = true;
-            C(bind);
+            sendNetworkKeyDown(bind);
         }
 
         if (!t[keyCode])
@@ -692,10 +692,10 @@ Input.gameBlur = function() {
  * @param {string} bind 
  * @returns {void} 
  */
-var C = function(bind) {
+function sendNetworkKeyDown(bind) {
     if (3 == game.myType && ("STRAFELEFT" === bind || "STRAFERIGHT" === bind)) {
-        C("SPECIAL");
-        C(bind === "STRAFELEFT" ? "LEFT" : "RIGHT");
+        sendNetworkKeyDown("SPECIAL");
+        sendNetworkKeyDown(bind === "STRAFELEFT" ? "LEFT" : "RIGHT");
         return;
     }
 
