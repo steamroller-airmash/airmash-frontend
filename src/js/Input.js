@@ -256,7 +256,7 @@ function onWindowKeyDown(event) {
     } else {
         if (!lastTransmittedKeyState[bind]) {
             lastTransmittedKeyState[bind] = true;
-            C(bind);
+            sendNetworkKeyDown(bind);
         }
 
         if (!t[keyCode])
