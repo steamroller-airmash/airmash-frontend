@@ -1,5 +1,6 @@
 import Vector from './Vector';
 import nipplejs from 'nipplejs';
+import Network from './Network';
 
 var lastTransmittedKeyState = {},
     t = {},
@@ -687,13 +688,25 @@ Input.gameBlur = function() {
     Input.clearKeys()
 };
 
-var C = function(e) {
-    if (3 == game.myType && ("STRAFELEFT" === e || "STRAFERIGHT" === e))
-        return C("SPECIAL"),
-        void C("STRAFELEFT" === e ? "LEFT" : "RIGHT");
-    -1 !== x.indexOf(e) && Network.sendKey(e, true)
+/**
+ * @param {string} bind 
+ * @returns {void} 
+ */
+function sendNetworkKeyDown(bind) {
+    if (game.myType == 3 && ("STRAFELEFT" === bind || "STRAFERIGHT" === bind)) {
+        sendNetworkKeyDown("SPECIAL");
+        sendNetworkKeyDown(bind === "STRAFELEFT" ? "LEFT" : "RIGHT");
+        return;
+    }
+
+    if (x.indexOf(bind) !== -1)
+        Network.sendKey(bind, true)
 };
 
+/**
+ * @param {string} bind 
+ * @returns {void} 
+ */
 var R = function(bind) {
     if (3 != game.myType || "STRAFELEFT" !== bind && "STRAFERIGHT" !== bind)
         -1 !== networkKeyNames.indexOf(bind) && Network.sendKey(bind, false);
