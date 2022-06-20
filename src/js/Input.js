@@ -284,7 +284,7 @@ function onWindowKeyUp(event) {
     if (!shouldInterpretAsControlKey(keyCode)) {
         if (lastTransmittedKeyState[bind]) {
             lastTransmittedKeyState[bind] = false;
-            R(bind);
+            sendNetworkKeyUp(bind);
         }
 
         if (t[keyCode])
@@ -523,7 +523,7 @@ Input.clearKeys = function(n) {
                 if (n && (t[38] || t[40] || t[37] || t[39]))
                     continue;
                 lastTransmittedKeyState[r] = false,
-                R(r)
+                sendNetworkKeyUp(r)
             }
         for (var i in t)
             (!n || 38 != i && 40 != i && 37 != i && 39 != i) && (t[i] = false)
@@ -707,13 +707,18 @@ function sendNetworkKeyDown(bind) {
  * @param {string} bind 
  * @returns {void} 
  */
-var R = function(bind) {
-    if (3 != game.myType || "STRAFELEFT" !== bind && "STRAFERIGHT" !== bind)
-        -1 !== networkKeyNames.indexOf(bind) && Network.sendKey(bind, false);
-    else {
-        R("STRAFELEFT" === bind ? "LEFT" : "RIGHT");
-        lastTransmittedKeyState["STRAFERIGHT" === bind ? "STRAFELEFT" : "STRAFERIGHT"] || R("SPECIAL")
+function sendNetworkKeyUp(bind) {
+    if (game.myType == 3 && ("STRAFELEFT" === bind || "STRAFERIGHT" === bind)) {
+        let side = bind === "STRAFELEFT" ? "LEFT" : "RIGHT";
+
+        sendNetworkKeyUp(side);
+        if (!lastTransmittedKeyState[side])
+            sendNetworkKeyUp("SPECIAL");
+        return;
     }
+
+    if (networkKeyNames.indexOf(bind) !== -1)
+        Network.sendKey(bind, false);
 };
 
 export default Input;
